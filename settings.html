@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - MentalSpace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .settings-bg {
+            background: linear-gradient(135deg, #F8F8FF 0%, #F5F5DC 50%, #E6E6FA 100%);
+        }
+        .setting-item {
+            transition: all 0.2s ease;
+        }
+        .setting-item:hover {
+            background-color: rgba(143, 188, 143, 0.1);
+        }
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: #E5E7EB;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .toggle-switch.active {
+            background: linear-gradient(135deg, #8FBC8F, #E6E6FA);
+        }
+        .toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .toggle-switch.active .toggle-knob {
+            transform: translateX(20px);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, rgba(143, 188, 143, 0.1), rgba(230, 230, 250, 0.1));
+            border: 1px solid rgba(143, 188, 143, 0.2);
+        }
+        .profile-avatar {
+            background: linear-gradient(135deg, #8FBC8F, #E6E6FA);
+            animation: avatarFloat 3s ease-in-out infinite;
+        }
+        @keyframes avatarFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="settings-bg min-h-screen">
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 sticky top-0 z-40">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button onclick="window.location.href='index.html'" class="p-2 rounded-full hover:bg-gray-100">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="text-xl font-semibold text-gray-800">Settings</h1>
+                    <p class="text-sm text-gray-600">Customize your experience</p>
+                </div>
+            </div>
+            <button class="p-2 rounded-full hover:bg-gray-100">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="px-6 py-6 pb-20">
+        <!-- Profile Section -->
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-lg">
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="profile-avatar w-16 h-16 rounded-full flex items-center justify-center">
+                    <span class="text-2xl font-bold text-white">A</span>
+                </div>
+                <div class="flex-1">
+                    <h2 class="text-lg font-semibold text-gray-800">Alex Johnson</h2>
+                    <p class="text-sm text-gray-600">Member since March 2024</p>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span class="text-xs text-gray-500">Premium Member</span>
+                    </div>
+                </div>
+                <button onclick="editProfile()" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-3 gap-4">
+                <div class="stat-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-green-600">28</div>
+                    <div class="text-xs text-gray-600">Day Streak</div>
+                </div>
+                <div class="stat-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-blue-600">156</div>
+                    <div class="text-xs text-gray-600">Total Sessions</div>
+                </div>
+                <div class="stat-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-purple-600">42h</div>
+                    <div class="text-xs text-gray-600">Mindful Time</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Notifications</h3>
+            <div class="space-y-4">
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Daily Check-in Reminders</div>
+                        <div class="text-xs text-gray-500">Get reminded to log your mood</div>
+                    </div>
+                    <div class="toggle-switch active" onclick="toggleSetting(this)">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Mindfulness Sessions</div>
+                        <div class="text-xs text-gray-500">Notifications for guided sessions</div>
+                    </div>
+                    <div class="toggle-switch active" onclick="toggleSetting(this)">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Weekly Progress Reports</div>
+                        <div class="text-xs text-gray-500">Summary of your mental health journey</div>
+                    </div>
+                    <div class="toggle-switch" onclick="toggleSetting(this)">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Community Updates</div>
+                        <div class="text-xs text-gray-500">Tips and support from our community</div>
+                    </div>
+                    <div class="toggle-switch active" onclick="toggleSetting(this)">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preferences -->
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Preferences</h3>
+            <div class="space-y-4">
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg" onclick="showLanguageOptions()">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Language</div>
+                        <div class="text-xs text-gray-500">Choose your preferred language</div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">English</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg" onclick="showThemeOptions()">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Theme</div>
+                        <div class="text-xs text-gray-500">Adjust app appearance</div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">Light</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg" onclick="showFontSizeOptions()">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Font Size</div>
+                        <div class="text-xs text-gray-500">Adjust text size for readability</div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">Medium</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy & Security -->
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Privacy & Security</h3>
+            <div class="space-y-4">
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg" onclick="showPrivacySettings()">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Data Privacy</div>
+                        <div class="text-xs text-gray-500">Manage your data and privacy settings</div>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg" onclick="showSecuritySettings()">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Security</div>
+                        <div class="text-xs text-gray-500">Password and authentication settings</div>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Anonymous Mode</div>
+                        <div class="text-xs text-gray-500">Use app without personal identification</div>
+                    </div>
+                    <div class="toggle-switch" onclick="toggleSetting(this)">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support -->
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Support</h3>
+            <div class="space-y-4">
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg" onclick="showHelp()">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Help & FAQ</div>
+                        <div class="text-xs text-gray-500">Get answers to common questions</div>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg" onclick="contactSupport()">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Contact Support</div>
+                        <div class="text-xs text-gray-500">Get help from our team</div>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <div class="setting-item flex items-center justify-between p-3 rounded-lg" onclick="provideFeedback()">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Send Feedback</div>
+                        <div class="text-xs text-gray-500">Help us improve the app</div>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Actions -->
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Account</h3>
+            <div class="space-y-4">
+                <button onclick="exportData()" class="setting-item w-full flex items-center justify-between p-3 rounded-lg text-left">
+                    <div>
+                        <div class="font-medium text-gray-800 text-sm">Export Data</div>
+                        <div class="text-xs text-gray-500">Download your personal data</div>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m-4-8a8 8 0 11-16 0 8 8 0 0116 0z"></path>
+                    </svg>
+                </button>
+                <button onclick="signOut()" class="setting-item w-full flex items-center justify-between p-3 rounded-lg text-left">
+                    <div>
+                        <div class="font-medium text-red-600 text-sm">Sign Out</div>
+                        <div class="text-xs text-gray-500">Sign out of your account</div>
+                    </div>
+                    <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- App Info -->
+        <div class="text-center text-xs text-gray-500 space-y-1">
+            <div>MentalSpace v1.2.0</div>
+            <div>Made with ❤️ for your mental wellness</div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200 px-6 py-3 z-50">
+        <div class="flex justify-around items-center">
+            <a href="index.html" class="flex flex-col items-center space-y-1 text-gray-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            <a href="chat.html" class="flex flex-col items-center space-y-1 text-gray-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                <span class="text-xs font-medium">Chat</span>
+            </a>
+            <a href="programs.html" class="flex flex-col items-center space-y-1 text-gray-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <span class="text-xs font-medium">Programs</span>
+            </a>
+            <a href="settings.html" class="flex flex-col items-center space-y-1 text-green-500">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="text-xs font-medium">Settings</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        function toggleSetting(element) {
+            element.classList.toggle('active');
+        }
+
+        function editProfile() {
+            alert('Edit Profile\n\nIn a real app, this would open a form to update your profile information including name, email, and profile picture.');
+        }
+
+        function showLanguageOptions() {
+            const languages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Japanese'];
+            const selectedLanguage = prompt('Choose your language:\\n\\n' + languages.map((lang, i) => `${i + 1}. ${lang}`).join('\\n') + '\\n\\nEnter the number of your preferred language:');
+            if (selectedLanguage && selectedLanguage >= 1 && selectedLanguage <= languages.length) {
+                alert(`Language changed to: ${languages[selectedLanguage - 1]}\\n\\nIn a real app, this would update the app language.`);
+            }
+        }
+
+        function showThemeOptions() {
+            const themes = ['Light', 'Dark', 'Auto (System)'];
+            const selectedTheme = prompt('Choose your theme:\\n\\n' + themes.map((theme, i) => `${i + 1}. ${theme}`).join('\\n') + '\\n\\nEnter the number of your preferred theme:');
+            if (selectedTheme && selectedTheme >= 1 && selectedTheme <= themes.length) {
+                alert(`Theme changed to: ${themes[selectedTheme - 1]}\\n\\nIn a real app, this would update the app theme.`);
+            }
+        }
+
+        function showFontSizeOptions() {
+            const sizes = ['Small', 'Medium', 'Large'];
+            const selectedSize = prompt('Choose font size:\\n\\n' + sizes.map((size, i) => `${i + 1}. ${size}`).join('\\n') + '\\n\\nEnter the number of your preferred size:');
+            if (selectedSize && selectedSize >= 1 && selectedSize <= sizes.length) {
+                alert(`Font size changed to: ${sizes[selectedSize - 1]}\\n\\nIn a real app, this would update the text size throughout the app.`);
+            }
+        }
+
+        function showPrivacySettings() {
+            alert('Privacy Settings\\n\\nIn a real app, this would show options for:\\n• Data sharing preferences\\n• Analytics tracking\\n• Third-party integrations\\n• Data retention settings');
+        }
+
+        function showSecuritySettings() {
+            alert('Security Settings\\n\\nIn a real app, this would show options for:\\n• Change password\\n• Two-factor authentication\\n• Biometric settings\\n• Session management');
+        }
+
+        function showHelp() {
+            alert('Help & FAQ\\n\\nIn a real app, this would open a help center with:\\n• Frequently asked questions\\n• Video tutorials\\n• User guides\\n• Troubleshooting tips');
+        }
+
+        function contactSupport() {
+            alert('Contact Support\\n\\nIn a real app, this would open:\\n• Live chat with support team\\n• Email support form\\n• Help desk tickets\\n• Community forum');
+        }
+
+        function provideFeedback() {
+            const feedback = prompt('We\\'d love to hear your feedback!\\n\\nWhat can we improve? What do you like? Any bugs or suggestions?');
+            if (feedback && feedback.trim()) {
+                alert('Thank you for your feedback!\\n\\nYour input helps us make MentalSpace better for everyone.');
+            }
+        }
+
+        function exportData() {
+            if (confirm('Export Your Data\\n\\nThis will create a downloadable file containing your personal data, mood logs, and progress reports. Continue?')) {
+                alert('Data export started...\\n\\nIn a real app, this would generate and download a secure file with your personal data.');
+            }
+        }
+
+        function signOut() {
+            if (confirm('Sign Out\\n\\nAre you sure you want to sign out of your account?')) {
+                alert('Signing out...\\n\\nIn a real app, this would clear your session and return to the login screen.');
+                // In a real app, this would redirect to login page
+                // window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>
